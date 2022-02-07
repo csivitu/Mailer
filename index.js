@@ -6,6 +6,7 @@ const emailList = "./test.txt";
 const htmlTemplate = "./template.html";
 const senderEmail = "outreach@csivit.com";
 const emailSubject = "CSI CCS Recruitments for Freshers '22";
+const emailTimeout = 1000;
 
 dotenv.config();
 
@@ -35,13 +36,19 @@ function sendMail(senderEmail, receiverEmail, emailSubject, htmlTemplate) {
     });
 }
 
-function sendEmails() {
+function wait() {
+    return new Promise((resolve) => {
+        setTimeout(resolve, emailTimeout);
+    });
+}
+
+async function sendEmails() {
     const emails = getEmails(emailList);
     const html = getHTMLTemplate(htmlTemplate);
-    emails.forEach((email) => {
+    for (const email of emails) {
         sendMail(senderEmail, email, emailSubject, html);
-    })
-
+        await wait();
+    }
 }
 
 sendEmails();
