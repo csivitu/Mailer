@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/csivitu/Mailer#readme",
   "dependencies": {
+    "dotenv": "^16.0.0",
     "mailgun-js": "^0.22.0"
   }
 }
