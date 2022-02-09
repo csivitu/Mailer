@@ -1,6 +1,6 @@
 const fs = require("fs");
 const dotenv = require("dotenv");
-const mailgunJS = require("mailgun.js");
+const Mailgun = require("mailgun.js");
 const formData = require("form-data");
 
 const emailList = "./test.txt";
@@ -12,7 +12,7 @@ const emailTimeout = 1000;
 dotenv.config();
 
 //const mailgun = mailgunJS({ apiKey: process.env.API_KEY, domain: process.env.DOMAIN });
-const mailgun = new mailgunJS(formData);
+const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
     username: "api",
     key: process.env.API_KEY,
