@@ -1,6 +1,7 @@
 const fs = require("fs");
 const dotenv = require("dotenv");
-const mailgunJS = require("mailgun-js");
+const mailgunJS = require("mailgun.js");
+const formData = require("form-data");
 
 const emailList = "./test.txt";
 const htmlTemplate = "./template.html";
@@ -10,7 +11,15 @@ const emailTimeout = 1000;
 
 dotenv.config();
 
-const mailgun = mailgunJS({ apiKey: process.env.API_KEY, domain: process.env.DOMAIN });
+//const mailgun = mailgunJS({ apiKey: process.env.API_KEY, domain: process.env.DOMAIN });
+const mailgun = new mailgunJS(formData);
+const mg = mailgun.client({
+    username: "api",
+    key: process.env.API_KEY,
+    url: process.env.MAILGUN_HOST,
+});
+//const senderEmail = "sender_email";
+//const domain = "email_domain";
 
 function getEmails(fileName) {
     const emails = fs.readFileSync(fileName).toString().split('\n');
@@ -30,7 +39,7 @@ function sendMail(senderEmail, receiverEmail, emailSubject, htmlTemplate) {
         html: htmlTemplate,
     };
 
-    mailgun.messages().send(data, (error, body) => {
+    mg.messages.create(process.env.DOMAIN, data, (error, body) => {
         if (error) console.log(error)
         else console.log(body);
     });
